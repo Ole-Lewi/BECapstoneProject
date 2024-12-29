@@ -1,0 +1,35 @@
+<!-- movie_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ movie.title }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        p { line-height: 1.6; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; }
+        a { text-decoration: none; color: #007BFF; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>{{ movie.title }}</h1>
+    <p>{{ movie.description }}</p>
+    <p>Release Date: {{ movie.release_date }}</p>
+    <p>Duration: {{ movie.duration }} minutes</p>
+
+    <h2>Reviews:</h2>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <strong>{{ review.user.username }}:</strong> 
+                {{ review.rating }}/5 - {{ review.comment }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'add_review' movie.id %}">Add Review</a>
+</body>
+</html>

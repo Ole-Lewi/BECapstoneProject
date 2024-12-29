@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=_!b&^0_)1jhm$@mh_2-daom8)-q1c6q3cx6$casuhu-1jba6m'
+SECRET_KEY = 'django-insecure-v0fnv6v@i15svcm376xwl0mqz216)sj3rxy8i@b&y!s32wd4f)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'review',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -68,6 +70,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MOVIE_REVIEW.wsgi.application'
+
+AUTH_USER_MODEL ='review.CustomUser'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+STATIC_URL='static/'
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = False
+SECURE_SSL_REDIRECT = False
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 
 
 # Database

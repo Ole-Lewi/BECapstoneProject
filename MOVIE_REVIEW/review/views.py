@@ -122,3 +122,62 @@ from django.http import HttpResponse
 
 def home(request):
     return HttpResponse("Welcome to the Movie Review App")
+
+#adding search and filter functionality
+from django.views.generic import ListView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
+class MovieListView(ListView):
+    model = Movie
+    template_name = 'review/movie_list.html'
+    context_object_name = 'movies'
+    filter_backends = [DjangoFilterBackend] #enables filtering
+    filter_fields = ['release_date'] 
+
+    #adding both filtering and searching
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filter_fields = ['release_date'] #filters
+    search_fields = ['title','description'] #search fields
+
+    def get_queryset(self):
+        query = self.request.GET.get('q') #Get the search query
+
+        if query:
+            return Movie.objects.filter(title_icontains=query) #enables to search by title
+        return Movie.objects.all()
+    
+
+#Adding Liking and Comments on Reviews
+
+from .models import Like, Comment
+from .serializers import LikeSerializer, CommentSerializer
+
+class LikeCreateView(generics.CreateAPIView):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
+
+class CommentListCreateView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
+
+
+# template configuration to display like and comments
+from django.shortcuts import render, get_object_or_404
+#models were already imported earlier
+def review_detail(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    likes = review.likes.count() #counts the number of likes
+    comments = review.comments.all() #fetches all comments for the review
+
+    return render(request, 'review_detail.html', {'review':review, 'likes':likes, 'comments':comments})

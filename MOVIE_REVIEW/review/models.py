@@ -57,5 +57,18 @@ class Review(models.Model):
     def _str_(self):
         return(f"Review by {self.user.name} on {self.title}")
 
-    
+#Adding Like and Comment Features on Reviews
+from django.conf import settings 
 
+class Like(models.Model):
+    review=models.ForeignKey(Review, on_delete=models.CASCADE, related_name='likes')
+    CustomUser=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('review', 'CustomUser') #this prevents multiple likes from the same user
+
+class Comment(models.Model):
+    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='comments')
+    CustomUser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ review.movie.title }} Review</title>
+</head>
+<body>
+    <h1>{{ review.movie.title }}</h1>
+    <p><strong>Review by:</strong> {{ review.user.username }}</p>
+    <p>{{ review.content }}</p>
+    <p><strong>Likes:</strong> {{ likes }}</p>
+
+    <!-- Like Button -->
+    <form method="POST" action="{% url 'like-review' review.id %}">
+        {% csrf_token %}
+        <button type="submit">Like</button>
+    </form>
+
+    <hr>
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+            <li><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Comment Form -->
+    <form method="POST" action="{% url 'list-create-comments' review.id %}">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Add a comment..." required></textarea>
+        <button type="submit">Comment</button>
+    </form>
+</body>
+</html>

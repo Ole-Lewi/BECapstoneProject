@@ -22,5 +22,13 @@
             </li>
         {% endfor %}
     </ul>
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search movies ..."/>
+        <button type="submit">Search</button>
+    </form>
+    {% for movie in movies %}
+        <h3>{{movie.title}}</h3>
+        <p>{{movie.description}}</p>
+    {%endfor%}
 </body>
 </html>

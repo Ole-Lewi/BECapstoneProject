@@ -16,7 +16,7 @@ def signup_view(request):
         else:
             form=UserCreationForm()
             return render(request, 'auth/signup.html', {'form':form})
-    return redirect('movie_list.html')
+    return render(request, 'review/signup.html')
 
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render,redirect
@@ -30,14 +30,21 @@ def login_view(request):
 
         if user is not None:
             login(request, user) #log in the user
-            return redirect ('movie_list.html') #this redirects to the home page
+            return redirect ('review/movie_list.html') #this redirects to the home page
         else:
             messages.error(request, 'Invalid username or password') #displays this error message
-            return render(request, 'login.html') #returns user to the login page
-        
+            return render(request, 'review/login.html') #returns user to the login page
+    return render(request, 'review/login.html')
+    
 def logout_view(request):
     logout(request) #logs out the user
-    return redirect('login')    
+    return redirect('login')  
+  
+#creating a homepage view
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to the Movie Review App")
 
 class SignupView(CreateView):
     form_class=UserCreationForm
@@ -117,11 +124,6 @@ def add_review(request, movie_id):
     
     return render(request, 'movies/add_review.html', {'movie':movie})
 
-#creating a homepage view
-from django.http import HttpResponse
-
-def home(request):
-    return HttpResponse("Welcome to the Movie Review App")
 
 #adding search and filter functionality
 from django.views.generic import ListView

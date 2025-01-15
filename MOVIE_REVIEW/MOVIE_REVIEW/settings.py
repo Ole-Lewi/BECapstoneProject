@@ -23,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-v0fnv6v@i15svcm376xwl0mqz216)sj3rxy8i@b&y!s32wd4f)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['LewisMiano.pythonanywhere.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -42,7 +41,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,7 +79,7 @@ STATIC_URL='static/'
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = False
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 
 
